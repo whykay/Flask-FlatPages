@@ -172,7 +172,7 @@ class FlatPages(object):
     def __iter__(self):
         """Iterate on all :class:`Page` objects.
         """
-        return self._pages.itervalues()
+        return self._pages.values()
 
     def init_app(self, app):
         """Used to initialize an application, useful for passing an app later
