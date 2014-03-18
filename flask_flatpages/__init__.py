@@ -258,8 +258,8 @@ class FlatPages(object):
         if cached and cached[1] == mtime:
             page = cached[0]
         else:
-            with open(filename) as fd:
-                content = fd.read().decode(self.config('encoding'))
+            with open(filename, encoding=self.config('encoding')) as fd:
+                content = fd.read()
             page = self._parse(content, path)
             self._file_cache[filename] = page, mtime
         return page
@@ -287,7 +287,7 @@ class FlatPages(object):
         pages = {}
 
         # Fail if the root is a non-ASCII byte string. Use Unicode.
-        _walk(unicode(self.root))
+        _walk(str(self.root))
 
         return pages
 
@@ -298,7 +298,7 @@ class FlatPages(object):
         """
         lines = iter(string.split(u'\n'))
         # Read lines until an empty line is encountered.
-        meta = u'\n'.join(itertools.takewhile(unicode.strip, lines))
+        meta = u'\n'.join(itertools.takewhile(str.strip, lines))
         # The rest is the content. `lines` is an iterator so it continues
         # where `itertools.takewhile` left it.
         content = u'\n'.join(lines)
